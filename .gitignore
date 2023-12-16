@@ -1,0 +1,9 @@
+.vscode/
+*.csv
+*.ckpt
+*.gz
+*-ubyte
+
+.DS_Store
+__pycache__
+*.pyc
