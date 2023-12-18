@@ -6,6 +6,7 @@ from torchvision.transforms import Compose
 from torchvision.transforms import Normalize
 from torchvision.transforms import ToTensor
 
+from PIL import Image
 
 def get_dataloaders(args):
     transform = get_transform(args)
@@ -34,6 +35,13 @@ def get_dataloaders(args):
 
     return train_loader, val_loader, test_loader
 
+def load_image(args):
+    image = Image.open(args.target_image_path)
+    if args.data == "mnist":
+        image = image.convert("L")
+    elif args.data == "cifar10":
+        image = image.convert("RGB")
+    return image
 
 def get_transform(args):
     if args.data == "mnist":
@@ -88,3 +96,21 @@ def get_optimizer(args, model):
 def get_criteria():
     criteria = torch.nn.CrossEntropyLoss()
     return criteria
+
+
+def get_model(args):
+    if args.model == "mlp":
+        from networks.mlps import myMLP
+
+        model = myMLP(
+            image_size=args.image_size,
+            hidden_size=args.hidden_size,
+            num_class=args.num_class,
+        ).to(args.device)
+    elif args.model == "lenet":
+        from networks.lenet import LeNet
+        model = LeNet(num_class=args.num_class).to(args.device)
+    else:
+        raise NotImplementedError
+
+    return model

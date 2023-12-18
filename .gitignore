@@ -3,6 +3,11 @@
 *.ckpt
 *.gz
 *-ubyte
+results/
+
+batches.meta
+data_batch_*
+test_batch*
 
 .DS_Store
 __pycache__
