@@ -16,6 +16,8 @@ def parse_train_args():
     parser.add_argument("--data", type=str, default="mnist", choices=["mnist", "cifar10"], help="dataset name")
     parser.add_argument("--model", type=str, default="mlp", choices=["mlp", "lenet", "lenet_inj", "lenet_multiconv", "lenet_incep", "vgg", 'resnet'], help="model name")
     parser.add_argument("--vgg-conf", type=str, default="a", choices=["a", "b", "c", "d", "e"], help="vgg config")
+    parser.add_argument("--resnet-config", type=int, default=18, choices=[18, 34, 50, 101, 152], help="resnet config")
+    
     return parser.parse_args()
 
 
@@ -25,4 +27,6 @@ def parse_infer_args():
     parser.add_argument("--load-dir", type=str)
     parser.add_argument("--data", type=str, default="mnist", choices=["mnist", "cifar10"], help="dataset name")
     parser.add_argument("--model", type=str, default="mlp", choices=["mlp", "lenet", "lenet_inj", "lenet_multiconv", "lenet_incep", "vgg", "resnet"])
+    parser.add_argument("--resnet-config", type=int, default=18, choices=[18, 34, 50, 101, 152], help="resnet config")
+    
     return parser.parse_args()

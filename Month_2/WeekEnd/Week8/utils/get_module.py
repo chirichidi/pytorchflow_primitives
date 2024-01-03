@@ -33,6 +33,16 @@ def get_dataloaders(args):
         test_loader = DataLoader(
             test_dataset, batch_size=args.batch_size, shuffle=False, num_workers=0
         )
+    elif args.data == "dog":
+        train_loader = DataLoader(
+            train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=0
+        )
+        val_loader = DataLoader(
+            val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=0
+        )
+        test_loader = DataLoader(
+            test_dataset, batch_size=args.batch_size, shuffle=False, num_workers=0
+        )
 
     return train_loader, val_loader, test_loader
 
@@ -52,6 +62,16 @@ def get_transform(args):
     elif args.data == "cifar10":
         mean = [0.4914, 0.4822, 0.4465]
         std = [0.2470, 0.2435, 0.2616]
+        transform = Compose(
+            [
+                Resize((args.image_size, args.image_size)),
+                ToTensor(),
+                Normalize(mean, std),
+            ]
+        )
+    elif args.data == "dog":
+        mean = [0.485, 0.456, 0.406]
+        std = [0.229, 0.224, 0.225]
         transform = Compose(
             [
                 Resize((args.image_size, args.image_size)),
@@ -88,6 +108,20 @@ def get_datasets(transform, args):
         )
         test_dataset = CIFAR10(
             root="../../data", train=False, download=True, transform=transform
+        )
+    elif args.data == "dog":
+        from torchvision.datasets import ImageFolder
+        path = "https://drive.google.com/drive/folders/16NGC6130QuSL6tjrRrrogNlXFsll-48a?usp=sharing"
+        data = ImageFolder(root=)
+
+        train_val_dataset = ImageFolder(
+            root="../../data/dog/train", transform=transform
+        )
+        train_dataset, val_dataset = random_split(
+            train_val_dataset, [12000, 3000], torch.Generator().manual_seed(42)
+        )
+        test_dataset = ImageFolder(
+            root="../../data/dog/test", transform=transform
         )
 
     return train_dataset, val_dataset, test_dataset

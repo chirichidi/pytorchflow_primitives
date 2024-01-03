@@ -71,6 +71,7 @@ def main():
                         model.state_dict(), os.path.join(save_path, "best_model.ckpt")
                     )
 
+
     final_acc = evaluate(model, test_loader, device)
     print(f"최종 test data에 해당하는 평가 결과는 {final_acc:.3f}입니다")
 
